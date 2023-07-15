@@ -8,16 +8,11 @@
         <version>3.5.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
-    <artifactId>jeecg-module-system</artifactId>
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>jeecg-system-api</module>
-        <module>jeecg-system-biz</module>
-        <module>jeecg-system-start</module>
-        <module>jeecg-system-ddf</module>
-    </modules>
-
-
+    <artifactId>jeecg-system-ddf</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>org.jeecgframework.boot</groupId>
+            <artifactId>jeecg-system-local-api</artifactId>
+        </dependency>
+    </dependencies>
 </project>

@@ -24,6 +24,12 @@
             <artifactId>jeecg-module-demo</artifactId>
             <version>${jeecgboot.version}</version>
         </dependency>
+        <!-- DDF示例模块 -->
+        <dependency>
+            <groupId>org.jeecgframework.boot</groupId>
+            <artifactId>jeecg-system-ddf</artifactId>
+            <version>${jeecgboot.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
