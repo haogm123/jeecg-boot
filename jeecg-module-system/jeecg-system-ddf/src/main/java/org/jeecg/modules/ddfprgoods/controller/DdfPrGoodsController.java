@@ -171,7 +171,7 @@ public class DdfPrGoodsController extends JeecgController<DdfPrGoods, IDdfPrGood
     }
 
     /**
-      * 通过excel导入数据
+      * 通过excel导入店铺商品数据
     *
     * @param request
     * @param response
@@ -185,10 +185,10 @@ public class DdfPrGoodsController extends JeecgController<DdfPrGoods, IDdfPrGood
 		//查询DdfPrGoods表中的所有数据
 		QueryWrapper<DdfPrGoods> queryWrapper = new QueryWrapper<>();
 		queryWrapper.eq("create_by",sysUser.getUsername());
-		queryWrapper.eq("status",sysUser.getUsername());
+		queryWrapper.eq("status",0);
 		List<DdfPrGoods> list = ddfPrGoodsService.list(queryWrapper);
 		list.forEach(item->{
-			//QueryWrapper查询最后一条
+			//根据69码匹配平台商品
 			QueryWrapper<DdfCaGoods> queryWrapper1 = new QueryWrapper<>();
 			queryWrapper1.eq("bar_code",item.getBarcode());
 			queryWrapper1.eq("status",1);
