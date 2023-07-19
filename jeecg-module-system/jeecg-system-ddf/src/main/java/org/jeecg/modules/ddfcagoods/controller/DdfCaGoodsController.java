@@ -70,6 +70,11 @@ public class DdfCaGoodsController extends JeecgController<DdfCaGoods, IDdfCaGood
 		QueryWrapper<DdfCaGoods> queryWrapper = QueryGenerator.initQueryWrapper(ddfCaGoods, req.getParameterMap());
 		Page<DdfCaGoods> page = new Page<DdfCaGoods>(pageNo, pageSize);
 		IPage<DdfCaGoods> pageList = ddfCaGoodsService.page(page, queryWrapper);
+		pageList.getRecords().forEach(item->{
+			if (item.getImg() !=null){
+				item.setImgarr(item.getImg().split(","));
+			}
+		});
 		return Result.OK(pageList);
 	}
 	

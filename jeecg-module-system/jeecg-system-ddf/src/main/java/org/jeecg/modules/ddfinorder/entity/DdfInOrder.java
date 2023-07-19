@@ -1,12 +1,12 @@
-package org.jeecg.modules.ddfcagoods.entity;
+package org.jeecg.modules.ddfinorder.entity;
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
-import java.math.BigDecimal;
-import java.util.List;
-
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,21 +14,17 @@ import org.jeecgframework.poi.excel.annotation.Excel;
 import org.jeecg.common.aspect.annotation.Dict;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 /**
- * @Description: 平台商品
+ * @Description: 内部订单
  * @Author: jeecg-boot
- * @Date:   2023-07-15
+ * @Date:   2023-07-18
  * @Version: V1.0
  */
+@ApiModel(value="ddf_in_order对象", description="内部订单")
 @Data
-@TableName("ddf_ca_goods")
-@Accessors(chain = true)
-@EqualsAndHashCode(callSuper = false)
-@ApiModel(value="ddf_ca_goods对象", description="平台商品")
-public class DdfCaGoods implements Serializable {
+@TableName("ddf_in_order")
+public class DdfInOrder implements Serializable {
     private static final long serialVersionUID = 1L;
 
 	/**主键*/
@@ -51,40 +47,37 @@ public class DdfCaGoods implements Serializable {
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "更新日期")
     private Date updateTime;
-	/**所属部门*/
-    @ApiModelProperty(value = "所属部门")
-    private String sysOrgCode;
-	/**平台名称*/
-	@Excel(name = "平台名称", width = 15)
-    @ApiModelProperty(value = "平台名称")
-    private String caName;
-	/**厂家*/
-	@Excel(name = "厂家", width = 15)
-    @ApiModelProperty(value = "厂家")
-    private String cjGoods;
-	/**规格*/
-	@Excel(name = "规格", width = 15)
-    @ApiModelProperty(value = "规格")
-    private String ggGoods;
-	/**批准文号*/
-	@Excel(name = "批准文号", width = 15)
-    @ApiModelProperty(value = "批准文号")
-    private String pzGoods;
-	/**条码*/
-	@Excel(name = "条码", width = 15)
-    @ApiModelProperty(value = "条码")
-    private String barCode;
-	/**图片*/
-	@Excel(name = "图片", width = 15)
-    @ApiModelProperty(value = "图片")
-    private String img;
-	/**描述*/
-	@Excel(name = "描述", width = 15)
-    @ApiModelProperty(value = "描述")
-    private String content;
-	/**状态*/
-	@Excel(name = "状态", width = 15)
-    @ApiModelProperty(value = "状态")
+	/**创建用户id*/
+	@Excel(name = "创建用户id", width = 15)
+    @ApiModelProperty(value = "创建用户id")
+    private String payUserId;
+	/**商家用户id*/
+	@Excel(name = "商家用户id", width = 15)
+    @ApiModelProperty(value = "商家用户id")
+    private String prUserId;
+	/**订单类型*/
+	@Excel(name = "订单类型", width = 15)
+    @ApiModelProperty(value = "订单类型")
+    private String orderType;
+	/**订单地址*/
+	@Excel(name = "订单地址", width = 15)
+    @ApiModelProperty(value = "订单地址")
+    private String orderAddr;
+	/**订单电话*/
+	@Excel(name = "订单电话", width = 15)
+    @ApiModelProperty(value = "订单电话")
+    private String orderPhone;
+	/**订单数量*/
+	@Excel(name = "订单数量", width = 15)
+    @ApiModelProperty(value = "订单数量")
+    private Integer orderNumber;
+	/**订单金额*/
+	@Excel(name = "订单金额", width = 15)
+    @ApiModelProperty(value = "订单金额")
+    private java.math.BigDecimal orderPrice;
+	/**订单状态*/
+	@Excel(name = "订单状态", width = 15)
+    @ApiModelProperty(value = "订单状态")
     private Integer status;
 	/**扩展字段1*/
 	@Excel(name = "扩展字段1", width = 15)
@@ -102,8 +95,4 @@ public class DdfCaGoods implements Serializable {
 	@Excel(name = "扩展字段4", width = 15)
     @ApiModelProperty(value = "扩展字段4")
     private String ext4;
-
-    @ApiModelProperty(value = "图片集")
-    @TableField(exist = false)
-    private String[] imgarr;
 }
