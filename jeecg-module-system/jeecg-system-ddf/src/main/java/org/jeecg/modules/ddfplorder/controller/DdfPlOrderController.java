@@ -81,6 +81,7 @@ public class DdfPlOrderController extends JeecgController<DdfPlOrder, IDdfPlOrde
 								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
 								   HttpServletRequest req) {
 		QueryWrapper<DdfPlOrder> queryWrapper = QueryGenerator.initQueryWrapper(ddfPlOrder, req.getParameterMap());
+//		queryWrapper.eq("del_flag","0");
 		Page<DdfPlOrder> page = new Page<DdfPlOrder>(pageNo, pageSize);
 		IPage<DdfPlOrder> pageList = ddfPlOrderService.page(page, queryWrapper);
 		return Result.OK(pageList);

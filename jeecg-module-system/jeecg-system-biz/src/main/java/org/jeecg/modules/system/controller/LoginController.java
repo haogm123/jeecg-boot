@@ -608,7 +608,7 @@ public class LoginController {
 		}
 
 		//5. 设置登录用户信息
-		obj.put("userInfo", sysUser);
+//		obj.put("userInfo", sysUser);
 		
 		//6. 生成token
 		String token = JwtUtil.sign(username, syspassword);

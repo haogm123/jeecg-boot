@@ -13,6 +13,9 @@ import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.util.oConvertUtils;
 import org.jeecg.modules.ddfcagoods.entity.DdfCaGoods;
+import org.jeecg.modules.ddfcagoods.entity.DdfCaGoodsiarvo;
+import org.jeecg.modules.ddfcagoods.entity.DdfCaGoodsimagevo;
+import org.jeecg.modules.ddfcagoods.entity.DdfCaGoodsvo;
 import org.jeecg.modules.ddfcagoods.service.IDdfCaGoodsService;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -26,6 +29,7 @@ import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
 import org.jeecgframework.poi.excel.view.JeecgEntityExcelView;
 import org.jeecg.common.system.base.controller.JeecgController;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -77,7 +81,47 @@ public class DdfCaGoodsController extends JeecgController<DdfCaGoods, IDdfCaGood
 		});
 		return Result.OK(pageList);
 	}
-	
+
+	 @ApiOperation(value="平台商品-APP查询", notes="平台商品-APP查询")
+	 @GetMapping(value = "/applist")
+	 public List<DdfCaGoodsvo> applist() {
+		 QueryWrapper<DdfCaGoods> queryWrapper = new QueryWrapper<>();
+		 queryWrapper.eq("status",1);
+		 //限制条数
+		 queryWrapper.last("limit 10");
+		 List<DdfCaGoods> list = ddfCaGoodsService.list(queryWrapper);
+		 List<DdfCaGoodsvo> listvo = list.stream().map(item -> {
+			 DdfCaGoodsvo vo = new DdfCaGoodsvo();
+			 //反射复制类
+			 BeanUtils.copyProperties(item,vo);
+			 vo.setName(item.getCaName());
+			 vo.setShortDescription(item.getContent());
+			 vo.setDescription(item.getContent());
+			 vo.setPrice("18");
+			 vo.setType("simple");
+
+			 DdfCaGoodsiarvo iarvo = new DdfCaGoodsiarvo();
+			 iarvo.setId(item.getId());
+			 iarvo.setName("Color");
+			 iarvo.setOptions("Red,Green,Blue".split(","));
+			 iarvo.setVisible(true);
+			 iarvo.setVariation(false);
+			 vo.setAttributes(Arrays.asList(iarvo));
+
+			 if (item.getImg() !=null){
+				 List<DdfCaGoodsimagevo> imglist = Arrays.stream(item.getImg().split(",")).map(img -> {
+					 DdfCaGoodsimagevo imagevo = new DdfCaGoodsimagevo();
+					 imagevo.setSrc(img);
+					 imagevo.setId(item.getId());
+					 imagevo.setName(item.getCaName());
+					 return imagevo;
+				 }).collect(Collectors.toList());
+				 vo.setImages(imglist);
+			 }
+			 return vo;
+		 }).collect(Collectors.toList());
+		 return listvo;
+	 }
 	/**
 	 *   添加
 	 *
@@ -154,6 +198,41 @@ public class DdfCaGoodsController extends JeecgController<DdfCaGoods, IDdfCaGood
 		}
 		return Result.OK(ddfCaGoods);
 	}
+
+	 @ApiOperation(value="app-通过id查询", notes="app-通过id查询")
+	 @GetMapping(value = "/appqueryId")
+	 public DdfCaGoodsvo appqueryId(@RequestParam(name="id",required=true) String id) {
+		 DdfCaGoods item = ddfCaGoodsService.getById(id);
+		 DdfCaGoodsvo vo = new DdfCaGoodsvo();
+		 BeanUtils.copyProperties(item,vo);
+		 vo.setName(item.getCaName());
+		 vo.setShortDescription(item.getContent());
+		 vo.setDescription(item.getContent());
+		 vo.setPrice("18");
+		 vo.setType("simple");
+
+		 DdfCaGoodsiarvo iarvo = new DdfCaGoodsiarvo();
+		 iarvo.setId(item.getId());
+		 iarvo.setName("Color");
+		 iarvo.setOptions("Red,Green,Blue".split(","));
+		 iarvo.setVisible(true);
+		 iarvo.setVariation(false);
+		 vo.setAttributes(Arrays.asList(iarvo));
+
+		 if (item.getImg() !=null){
+			 List<DdfCaGoodsimagevo> imglist = Arrays.stream(item.getImg().split(",")).map(img -> {
+				 DdfCaGoodsimagevo imagevo = new DdfCaGoodsimagevo();
+				 imagevo.setSrc(img);
+				 imagevo.setId(item.getId());
+				 imagevo.setName(item.getCaName());
+				 return imagevo;
+			 }).collect(Collectors.toList());
+			 vo.setImages(imglist);
+		 }
+
+		 return vo;
+
+	 }
 
     /**
     * 导出excel
